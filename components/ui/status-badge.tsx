@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { GymStatus, VendorStatus } from "@/types";
 
 export type AnyStatus = VendorStatus | GymStatus | string;
-//test
 
 export interface StatusBadgeProps {
   status: AnyStatus;
