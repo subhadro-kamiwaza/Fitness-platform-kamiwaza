@@ -1,6 +1,6 @@
 import React from "react";
-import type { GymStatus, VendorStatus } from "@/lib/types/db";
 import { cn } from "@/lib/utils";
+import { GymStatus, VendorStatus } from "@/types";
 
 export type AnyStatus = VendorStatus | GymStatus | string;
 

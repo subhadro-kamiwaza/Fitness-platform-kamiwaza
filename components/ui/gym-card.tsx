@@ -2,21 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { MapPin, Phone, IndianRupee, Sparkles } from "lucide-react";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { Gym, GymStatus } from "@/lib/types/db";
 import { cn } from "@/lib/utils";
+import { Gym, GymStatus } from "@/types";
 
 export interface GymCardProps {
-  gym: Partial<Gym> & {
-    id: string;
-    name: string;
-    city: string;
-    state: string;
-    status: GymStatus | string;
-    price?: number;
-    address?: string;
-    phone?: string;
-    description?: string | null;
-  };
+  gym: Gym;
   actionHref?: string;
   actionLabel?: string;
   secondaryActionHref?: string;
