@@ -47,6 +47,8 @@
 }
 
 :root {
+    --page-content-width: 80rem;
+    --page-gutter: 1rem;
     --background: oklch(0.12 0.015 260);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.16 0.015 260);
@@ -79,6 +81,19 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.26 0.02 260 / 0.85);
     --sidebar-ring: oklch(0.68 0.19 155);
+}
+
+@media (min-width: 640px) {
+    :root {
+        --page-gutter: 1.5rem;
+    }
+}
+
+.site-container {
+    width: 100%;
+    max-width: var(--page-content-width);
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
 }
 
 .dark {

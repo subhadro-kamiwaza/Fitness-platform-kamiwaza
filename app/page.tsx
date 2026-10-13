@@ -94,7 +94,7 @@ export default async function Home() {
       {/* ── SHOWCASE SECTION ── */}
       {featuredGyms && featuredGyms.length > 0 && (
         <section className="py-16 px-6 border-t border-zinc-800/50 bg-zinc-950/40">
-          <div className="max-w-7xl mx-auto space-y-10">
+          <div className="site-container space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div className="space-y-1">
                 <p className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Top Rated Venues</p>
@@ -125,7 +125,7 @@ export default async function Home() {
 
       {/* ── FEATURES SECTION ── */}
       <section className="py-20 px-6 border-t border-zinc-800/50">
-        <div className="max-w-7xl mx-auto space-y-12">
+        <div className="site-container space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <p className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Why GymPlatform</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">

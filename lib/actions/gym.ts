@@ -5,9 +5,58 @@ import { requireRole } from "@/lib/supabase/session";
 import { getVendorForUser } from "@/lib/actions/vendor";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import type { GymStatus } from "@/types";
+import type { GymPlan, GymStatus } from "@/types";
 
 // ── Vendor actions ────────────────────────────────────────────────
+
+function getGymPlanDetails(formData: FormData, required = true): GymPlan[] | null {
+  const names = formData.getAll("plan_name");
+  const prices = formData.getAll("plan_price");
+  const features = formData.getAll("plan_features");
+
+  if (!required && names.length === 3 && prices.length === 3 && features.length === 3) {
+    const hasAnyPlanDetails = prices.some((price) => typeof price === "string" && price.trim()) ||
+      features.some((planFeatures) => typeof planFeatures === "string" && planFeatures.trim());
+
+    if (!hasAnyPlanDetails) return null;
+  }
+
+  if (names.length !== 3 || prices.length !== 3 || features.length !== 3) {
+    throw new Error("Please provide all three membership plans.");
+  }
+
+  return names.map((rawName, index) => {
+    const rawPrice = prices[index];
+    const rawFeatures = features[index];
+
+    if (
+      typeof rawName !== "string" ||
+      typeof rawPrice !== "string" ||
+      typeof rawFeatures !== "string"
+    ) {
+      throw new Error("Invalid membership plan details.");
+    }
+
+    const name = rawName.trim();
+    const price = Number(rawPrice);
+
+    if (!name) throw new Error(`Enter a name for membership plan ${index + 1}.`);
+    if (!rawPrice.trim() || !Number.isFinite(price) || price < 0) {
+      throw new Error(`Enter a valid price for membership plan ${index + 1}.`);
+    }
+
+    const planFeatures = rawFeatures.split(",").map((feature) => feature.trim()).filter(Boolean);
+    if (planFeatures.length === 0) {
+      throw new Error(`Enter at least one feature for membership plan ${index + 1}.`);
+    }
+
+    return {
+      name,
+      price,
+      features: planFeatures,
+    };
+  });
+}
 
 export async function createGym(formData: FormData) {
   const supabase = await createClient();
@@ -16,6 +65,8 @@ export async function createGym(formData: FormData) {
 
   const latRaw = formData.get("latitude") as string;
   const lngRaw = formData.get("longitude") as string;
+  const planDetails = getGymPlanDetails(formData);
+  if (!planDetails) throw new Error("Please provide all three membership plans.");
 
   const { data, error } = await supabase
     .from("gyms")
@@ -33,6 +84,7 @@ export async function createGym(formData: FormData) {
       longitude: lngRaw ? parseFloat(lngRaw) : null,
       google_place_id: (formData.get("google_place_id") as string) || null,
       location_link: (formData.get("location_link") as string) || null,
+      plan_details: planDetails,
       status: "DRAFT",
     })
     .select("id")
@@ -54,6 +106,8 @@ export async function updateGym(gymId: string, formData: FormData): Promise<void
 
   const latRaw = formData.get("latitude") as string;
   const lngRaw = formData.get("longitude") as string;
+  const planDetails = getGymPlanDetails(formData);
+  if (!planDetails) throw new Error("Please provide all three membership plans.");
 
   const { error } = await supabase
     .from("gyms")
@@ -70,6 +124,7 @@ export async function updateGym(gymId: string, formData: FormData): Promise<void
       ...(lngRaw ? { longitude: parseFloat(lngRaw) } : {}),
       ...(formData.get("google_place_id") ? { google_place_id: formData.get("google_place_id") as string } : {}),
       ...(formData.get("location_link") ? { location_link: formData.get("location_link") as string } : {}),
+      plan_details: planDetails,
       updated_at: new Date().toISOString(),
     })
     .eq("id", gymId)
@@ -119,6 +174,7 @@ async function requireAdmin() {
 
 export async function adminUpdateGym(gymId: string, formData: FormData): Promise<void> {
   const supabase = await requireAdmin();
+  const planDetails = getGymPlanDetails(formData, false);
 
   const { error } = await supabase
     .from("gyms")
@@ -131,6 +187,7 @@ export async function adminUpdateGym(gymId: string, formData: FormData): Promise
       pincode: formData.get("pincode") as string,
       phone: formData.get("phone") as string,
       price: parseFloat(formData.get("price") as string) || 0,
+      plan_details: planDetails,
       updated_at: new Date().toISOString(),
     })
     .eq("id", gymId);

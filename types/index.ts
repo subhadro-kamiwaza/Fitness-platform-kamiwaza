@@ -29,6 +29,12 @@ export interface Vendor {
   updated_at: string;
 }
 
+export interface GymPlan {
+  name: string;
+  price: number;
+  features: string[];
+}
+
 export interface Gym {
   id: string;
   vendor_id: string;
@@ -44,6 +50,7 @@ export interface Gym {
   location_link: string | null;
   phone: string;
   price: number;
+  plan_details: GymPlan[] | null;
   status: GymStatus;
   created_at: string;
   updated_at: string;

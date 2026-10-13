@@ -54,7 +54,7 @@ export default async function AdminDashboard() {
   const totalGyms = gyms?.length ?? 0;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+    <div className="site-container py-10 space-y-10">
       {/* Header */}
       <PageHeader
         title="Admin Console"

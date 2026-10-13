@@ -3,9 +3,27 @@ import { getVendorForUser } from "@/lib/actions/vendor";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { AlertCircle, CheckCircle2, Clock, FileText } from "lucide-react";
-import type { GymStatus } from "@/types";
+import { AlertCircle, Check, CheckCircle2, Clock, FileText, IndianRupee } from "lucide-react";
+import type { GymPlan, GymStatus } from "@/types";
 import GymEditForm from "./GymEditForm";
+
+function isGymPlanDetails(value: unknown): value is GymPlan[] {
+  return (
+    Array.isArray(value) &&
+    value.every(
+      (plan) =>
+        typeof plan === "object" &&
+        plan !== null &&
+        "name" in plan &&
+        typeof plan.name === "string" &&
+        "price" in plan &&
+        typeof plan.price === "number" &&
+        "features" in plan &&
+        Array.isArray(plan.features) &&
+        plan.features.every((feature: unknown) => typeof feature === "string")
+    )
+  );
+}
 
 const STATUS_MESSAGES: Partial<Record<GymStatus, { text: string; icon: typeof Clock; style: string }>> = {
   DRAFT: {
@@ -58,11 +76,13 @@ export default async function GymDetailPage({ params }: { params: Promise<{ gymI
 
   if (!gym) redirect("/vendor/dashboard");
 
+  const rawPlanDetails: unknown = gym.plan_details;
+  const planDetails = isGymPlanDetails(rawPlanDetails) ? rawPlanDetails : [];
   const isEditable = gym.status === "DRAFT" || gym.status === "REJECTED";
   const statusInfo = STATUS_MESSAGES[gym.status as GymStatus];
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 space-y-6">
+    <div className="site-container py-10 space-y-8">
       <PageHeader
         title={gym.name}
         description={`Facility ID: ${gym.id.slice(0, 8)}...`}
@@ -72,6 +92,7 @@ export default async function GymDetailPage({ params }: { params: Promise<{ gymI
         ]}
         badge={<StatusBadge status={gym.status} />}
       />
+			<div className="max-w-3xl flex flex-col justify-start gap-y-4">
 
       {statusInfo && (
         <div className={`rounded-2xl border p-4 backdrop-blur-md flex items-start gap-3 text-sm ${statusInfo.style}`}>
@@ -80,9 +101,41 @@ export default async function GymDetailPage({ params }: { params: Promise<{ gymI
         </div>
       )}
 
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl">
+      <div className="relative  overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl">
         <GymEditForm gym={gym} isEditable={isEditable} />
       </div>
+			</div>
+      {planDetails.length > 0 && (
+        <section className=" space-y-4">
+          <div>
+            <h2 className="text-lg font-bold text-white">Membership Plans</h2>
+            <p className="mt-1 text-sm text-zinc-400">Your gym profile plan preview</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {planDetails.map((plan, planIndex) => (
+              <article
+                key={`${plan.name}-${planIndex}`}
+                className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-lg"
+              >
+                <h3 className="font-semibold text-white">{plan.name}</h3>
+                <p className="mt-3 flex items-center gap-1 text-2xl font-bold text-emerald-400">
+                  <IndianRupee className="h-5 w-5" />
+                  {Number(plan.price).toLocaleString("en-IN")}
+                </p>
+                <ul className="mt-4 space-y-2">
+                  {plan.features.map((feature, index) => (
+                    <li key={`${plan.name}-${index}`} className="flex items-start gap-2 text-sm text-zinc-300">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+			
     </div>
   );
 }

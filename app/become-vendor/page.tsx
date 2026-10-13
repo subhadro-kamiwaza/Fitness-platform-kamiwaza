@@ -39,10 +39,10 @@ export default function BecomeVendorPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10 space-y-6">
+    <div className="site-container py-10 space-y-6">
       <Breadcrumb items={[{ label: "Become a Vendor" }]} />
 
-      <div className="relative overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-6">
+      <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-6">
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-48 h-48 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full" />
 
         <div className="space-y-2">

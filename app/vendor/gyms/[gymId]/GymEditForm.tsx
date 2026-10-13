@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { updateGym, submitGym } from "@/lib/actions/gym";
 import { SubmitButton } from "@/components/ui/submit-button";
 import LocationSwitch from "@/app/_components/LocationSwitch";
+import GymPlanFields from "@/app/vendor/gyms/GymPlanFields";
 import type { LocationData, Gym } from "@/types";
 import { Dumbbell, Phone, MapPin, IndianRupee, FileText, Send, Save, Loader2 } from "lucide-react";
 
@@ -217,6 +218,8 @@ export default function GymEditForm({ gym, isEditable }: Props) {
           className={`${inputCls(!isEditable)} resize-none`}
         />
       </div>
+
+      <GymPlanFields planDetails={gym.plan_details} disabled={!isEditable} />
 
       {isEditable && (
         <>

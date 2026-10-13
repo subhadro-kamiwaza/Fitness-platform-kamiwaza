@@ -5,6 +5,7 @@ import { adminUpdateGym, setGymUnderReview, reviewGym, goLive } from "@/lib/acti
 import { PageHeader } from "@/components/ui/page-header";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { SubmitButton } from "@/components/ui/submit-button";
+import GymPlanFields from "@/app/vendor/gyms/GymPlanFields";
 import Link from "next/link";
 import { Dumbbell, Building2, Phone, MapPin, IndianRupee, FileText, CheckCircle2, XCircle, Sparkles, Clock, Save, AlertTriangle, ArrowRight } from "lucide-react";
 import type { GymStatus, VendorStatus } from "@/types";
@@ -39,7 +40,7 @@ export default async function AdminGymReviewPage({
   const makeLive = goLive.bind(null, gymId);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="site-container py-10 space-y-8">
       {/* Header */}
       <PageHeader
         title={gym.name}
@@ -191,6 +192,8 @@ export default async function AdminGymReviewPage({
                   className="w-full rounded-xl border border-zinc-700/80 bg-zinc-950/60 px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500/80 focus:ring-2 focus:ring-emerald-500/20 transition-all resize-none"
                 />
               </div>
+
+              <GymPlanFields planDetails={gym.plan_details} required={false} collapsible />
 
               <SubmitButton
                 variant="outline"

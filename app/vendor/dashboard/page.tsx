@@ -31,7 +31,7 @@ export default async function VendorDashboard() {
   const draftGyms = gyms?.filter((g) => ["DRAFT", "REJECTED"].includes(g.status)).length ?? 0;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="site-container py-10 space-y-8">
       {/* Header */}
       <PageHeader
         title="Vendor Dashboard"

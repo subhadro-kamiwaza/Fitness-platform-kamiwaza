@@ -20,7 +20,7 @@ export default async function GymsPage() {
   const cities = Array.from(new Set((gyms ?? []).map((g) => g.city).filter(Boolean)));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="site-container py-10 space-y-8">
       {/* Header with Breadcrumb */}
       <PageHeader
         title="Find a Gym"

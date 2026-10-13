@@ -6,6 +6,7 @@ import { createGym } from "@/lib/actions/gym";
 import { PageHeader } from "@/components/ui/page-header";
 import { SubmitButton } from "@/components/ui/submit-button";
 import LocationSwitch from "@/app/_components/LocationSwitch";
+import GymPlanFields from "@/app/vendor/gyms/GymPlanFields";
 import type { LocationData } from "@/types";
 import {
   Dumbbell,
@@ -70,7 +71,7 @@ export default function NewGymPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="site-container py-10 space-y-8">
       <PageHeader
         title="New Gym Application"
         description="Register and configure your fitness center. You can save as draft now and submit for audit later."
@@ -80,7 +81,7 @@ export default function NewGymPage() {
         ]}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 items-stretch">
         {/* Left Column: Form */}
         <div className="space-y-6">
           <div className="relative overflow-hidden rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl h-full flex flex-col">
@@ -200,6 +201,8 @@ export default function NewGymPage() {
                       />
                     </div>
                   </div>
+
+                  <GymPlanFields />
                 </div>
 
                 {/* Description */}
@@ -253,7 +256,7 @@ export default function NewGymPage() {
         </div>
 
         {/* Right Column */}
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
           <div className="overflow-hidden rounded-3xl border border-zinc-800/80 shadow-2xl shadow-black/50 h-full min-h-[600px]">
             <img
               src="/images/gym-showcase.jpg"
@@ -261,7 +264,7 @@ export default function NewGymPage() {
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

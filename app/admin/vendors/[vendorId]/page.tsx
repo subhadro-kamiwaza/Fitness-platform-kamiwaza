@@ -41,7 +41,7 @@ export default async function AdminVendorReviewPage({
   const resetDraft = resetVendorToDraft.bind(null, vendorId);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
+    <div className="site-container py-10 space-y-8">
       {/* Header */}
       <PageHeader
         title={vendor.business_name}
@@ -57,7 +57,7 @@ export default async function AdminVendorReviewPage({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left 2 Cols: Editable Vendor Details */}
         <div className="md:col-span-2 space-y-6">
-          <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-7 shadow-xl space-y-6">
+          <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 sm:p-7 shadow-xl space-y-6 max-w-2xl">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400">
               <Building2 className="w-4 h-4" />
               <span>Business Information (Editable)</span>
@@ -142,7 +142,7 @@ export default async function AdminVendorReviewPage({
           </div>
 
           {/* Attached Gym Applications */}
-          <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 shadow-xl space-y-4">
+          <div className="rounded-3xl border border-zinc-800/80 bg-zinc-900/60 backdrop-blur-2xl p-6 shadow-xl space-y-4 max-w-2xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400">
                 <Dumbbell className="w-4 h-4" />
